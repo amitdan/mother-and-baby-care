@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+  
+  <script>
+
+function myFunction() {
+	//$('#myDIV').text(name);     
+    var x = document.getElementById("myDIV");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+</script>  
+
+    <style>
+
+*, *:before, *:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #105469;
+  font-family: 'Open Sans', sans-serif;
+}
+table {
+ 
+  border-radius: 0.25em;
+  border-collapse: collapse;
+  margin: 1em;
+}
+th {
+  border-bottom: 1px solid #fff;
+  color: #E2B842;
+  font-size: 0.85em;
+  font-weight: 600;
+  padding: 0.5em 1em;
+  text-align: left;
+}
+td {
+  color: #fff;
+  font-weight: 400;
+  padding: 0.95em 1em;
+    border-bottom: 1px solid #fff;
+}
+.disabled td {
+  color: #4F5F64;
+}
+tbody tr {
+  transition: background 0.25s ease;
+}
+tbody tr:hover {
+  background: #014055;
+}
+
+.lead{
+color:  #fff;
+    }
+
+	.white{
+color:  #ffffff;        
+        }
+	
+.red{
+color:  #ff4000;        
+        }
+.green{
+color:  #40ff00;       
+        }
+.yellow{
+color: #ffff00;            
+     }
+    </style>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <p class="lead">M&B Care - Genome based Nutrient Recommendation System</p>
+      </div>
+
+      <% if (authorize_url) { %>
+      <a href="<%= authorize_url %>" class="btn btn-default">Connect with genome to get Genetic Insights</a>
+      <% } %>
+
+      <% if (reports.length > 0) { %>
+      <table class="table">
+          <br>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Genetic insights</th>
+            <th>Genetic insights score</th>
+            <th>Recommendations</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (let report of reports) { %>
+          <tr>
+                <% if(report.summary.score <2) { %>
+                <th class="red" scope="row"><%= report.phenotype.display_name %></th>
+                <td><%= report.summary.text %></td>
+                <td><%= report.summary.score %></td>
+				<td><% for (let res of apiResponse) { %>
+				<%= res.item %>,
+				<% } %></td>                
+               <% } %>
+              
+               <% if(report.summary.score ==2) { %>
+                <th class="yellow" scope="row"><%= report.phenotype.display_name %></th>
+                <td><%= report.summary.text %></td>
+                <td><%= report.summary.score %></td>
+                <td><% for (let res of apiResponse) { %>
+				<%= res.item %>,
+				<% } %></td>
+               <% } %>
+              
+               <% if(report.summary.score >2) { %>
+                <th class="green" scope="row"><%= report.phenotype.display_name %></th>
+                <td><%= report.summary.text %></td>
+                <td><%= report.summary.score %></td>
+                <td><% for (let res of apiResponse) { %>
+				<%= res.item %>,
+				<% } %></td>
+               <% } %>
+              
+              
+          </tr>
+           
+          <% } %>
+        </tbody>  
+      </table>
+      <% } %>
+        
+        <br>
+		
+
+<div id="myDIV">
+</div>
+		<br>
+        <div
+		<p class="white">Nutrient Scoring System ::</p>
+        <p class="red">Red---------Poor Nutrient Level</p>
+        <p class="yellow">Yellow-------Intermediate Nutrient Level</p>
+        <p class="green">Green--------High Nutrient Level</p>   
+        </div>
+		
+		
+    </div>
+  </body>
+</html>
